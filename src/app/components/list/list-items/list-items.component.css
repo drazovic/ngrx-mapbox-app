@@ -20,3 +20,12 @@
 	flex-basis: 115px;
 	margin: 10px;
 }
+
+.order {
+	color: #fff;
+	background-color: #1976d2;
+	padding: 3px 5px;
+	border-radius: 5px;
+	/* font-weight: 400; */
+	margin-right: 5px;
+}

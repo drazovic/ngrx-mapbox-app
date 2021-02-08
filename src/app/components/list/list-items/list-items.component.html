@@ -5,7 +5,10 @@
 >
 	<div class="card-data">
 		<mat-card-header>
-			<mat-card-title>{{ listItem.name }}</mat-card-title>
+			<mat-card-title>
+				<span class="order">{{ listItem.order }}</span>
+				{{ listItem.name }}
+			</mat-card-title>
 			<mat-card-subtitle>{{
 				listItem.streetAddress + "," + listItem.city
 			}}</mat-card-subtitle>

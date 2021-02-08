@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, pipe } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { FitBoundsOptions, LngLatBoundsLike, Map } from 'mapbox-gl';
 
@@ -8,9 +8,8 @@ import { MapService } from './services/map.service';
 import * as fromApp from '../../store/app.reducer';
 import * as MapActions from './store/map.actions';
 import * as mapSelectors from './store/map.selectors';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Geocode, ListItem } from '../list/models/list-items';
-import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-map',
@@ -28,6 +27,7 @@ export class MapComponent implements OnInit {
 	style =
 		'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ';
 	listItems$: Observable<ListItem[]>;
+	markerType$: Observable<string>;
 
 	constructor(
 		private mapService: MapService,
@@ -36,6 +36,7 @@ export class MapComponent implements OnInit {
 	) {
 		this.listItems$ = this.store.select(mapSelectors.getListItems);
 		this.bounds$ = this.store.select(mapSelectors.getBounds);
+		this.markerType$ = this.store.select(mapSelectors.getMarkerType);
 	}
 
 	ngOnInit(): void {}

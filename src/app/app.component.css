@@ -5,6 +5,7 @@
 
 .sidenav {
 	width: 25%;
+	min-width: 400px;
 }
 
 .sidenav-content {
@@ -14,7 +15,7 @@
 
 .toggle-icon {
 	position: absolute;
-	top: 1em;
+	top: 0.5em;
 	right: 1em;
 	z-index: 100;
 	visibility: hidden;

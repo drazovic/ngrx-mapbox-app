@@ -27,3 +27,8 @@ export const getIsMapLoaded = createSelector(
 	getMapState,
 	(state: State) => state.isMapLoaded
 );
+
+export const getMarkerType = createSelector(
+	getMapState,
+	(state: State) => state.markerType
+);

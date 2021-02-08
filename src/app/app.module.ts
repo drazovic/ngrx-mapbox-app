@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { ListItemsComponent } from './components/list/list-items/list-items.comp
 		BrowserAnimationsModule,
 		MatSidenavModule,
 		MatToolbarModule,
+		MatButtonModule,
 		MatCardModule,
 		MatIconModule,
 		MatListModule,

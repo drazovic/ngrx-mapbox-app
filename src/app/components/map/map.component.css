@@ -2,3 +2,15 @@ mgl-map {
 	height: 100%;
 	width: 100%;
 }
+
+.listing-order {
+	width: 17px;
+	line-height: 16px;
+	border-radius: 50%;
+	background: #ffd955;
+	align-self: center;
+	height: 17px;
+	text-align: center;
+	border: 1px solid #4c4c4c;
+	margin: auto auto 2px auto;
+}

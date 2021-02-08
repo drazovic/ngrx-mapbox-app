@@ -7,15 +7,16 @@
 	[fitBoundsOptions]="fitBoundsOptions"
 	(mapLoad)="onMapLoad($event)"
 >
+	<mgl-control mglNavigation position="top-left"></mgl-control>
 	<mgl-marker
 		*ngFor="let listItem of listItems$ | async"
 		[lngLat]="getCoords(listItem.geocode)"
 	>
 		<div (click)="onMarkerClicked(listItem)">
-			<img
-				width="20"
-				src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Map_marker.svg/780px-Map_marker.svg.png"
-			/>
+			<div class="listing-order">
+				{{ listItem.order }}
+			</div>
+			<img [src]="markerType$ | async" />
 		</div>
 	</mgl-marker>
 </mgl-map>
