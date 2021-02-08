@@ -23,7 +23,7 @@ export class MapComponent implements OnInit {
 		lng: -95.41682110099543,
 	};
 	initialZoom = 11;
-	bounds: LngLatBoundsLike;
+	bounds$: Observable<LngLatBoundsLike>;
 	fitBoundsOptions: FitBoundsOptions = { padding: 60 };
 	style =
 		'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ';
@@ -35,22 +35,15 @@ export class MapComponent implements OnInit {
 		private router: Router
 	) {
 		this.listItems$ = this.store.select(mapSelectors.getListItems);
-		this.store.select(mapSelectors.getBounds).subscribe((bounds) => {
-			this.bounds = bounds;
-		});
+		this.bounds$ = this.store.select(mapSelectors.getBounds);
 	}
 
 	ngOnInit(): void {}
 
 	onMapLoad(map: Map) {
 		this.mapService.setMap(map);
-		this.updateMap(map);
-	}
-
-	updateMap(map: Map) {
 		this.store.dispatch(
 			MapActions.updateMap({
-				bounds: map.getBounds(),
 				center: map.getCenter(),
 				zoom: map.getZoom(),
 			})

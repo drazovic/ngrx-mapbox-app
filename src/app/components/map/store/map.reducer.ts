@@ -25,21 +25,17 @@ export const initialState: State = {
 
 const mapReducer = createReducer(
 	initialState,
-	on(MapActions.updateMap, (state, { center, zoom, bounds }) => ({
+	on(MapActions.updateMap, (state, { center, zoom }) => ({
 		...state,
 		center,
 		zoom,
-		bounds,
 		isMapLoaded: true,
 	})),
-	on(MapActions.loadData, (state, { listItems, bounds }) => {
-		console.log(bounds);
-		return {
-			...state,
-			listItems: [...listItems],
-			bounds: bounds,
-		};
-	})
+	on(MapActions.loadData, (state, { listItems, bounds }) => ({
+		...state,
+		listItems: [...listItems],
+		bounds: bounds,
+	}))
 );
 
 export function reducer(state: State | undefined, action: Action) {

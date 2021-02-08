@@ -1,9 +1,9 @@
 <mgl-map
-	*ngIf="bounds"
+	*ngIf="bounds$ | async"
 	[center]="initialCenter"
 	[zoom]="[initialZoom]"
 	[style]="style"
-	[fitBounds]="bounds"
+	[fitBounds]="bounds$ | async"
 	[fitBoundsOptions]="fitBoundsOptions"
 	(mapLoad)="onMapLoad($event)"
 >

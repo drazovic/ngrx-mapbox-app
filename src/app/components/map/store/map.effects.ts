@@ -18,8 +18,6 @@ export class MapEffects {
 			ofType(MapActions.fetchData),
 			switchMap(() => this.dataService.listItems),
 			map((listItems) => {
-                console.log(2132131);
-                
 				const initialBounds: LngLatBounds = new LngLatBounds();
 				const bounds = listItems.records.reduce((bounds, listItem) => {
 					const coords = this.mapService.getGeocodeCoords(
