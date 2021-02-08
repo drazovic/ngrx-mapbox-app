@@ -9,6 +9,15 @@ body {
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+/* override default Material styles */
 .mat-drawer-inner-container {
 	overflow-y: hidden !important;
+}
+
+.mat-expansion-panel {
+	box-shadow: none !important;
+}
+
+.mat-expansion-panel-header-title {
+	align-items: center !important;
 }

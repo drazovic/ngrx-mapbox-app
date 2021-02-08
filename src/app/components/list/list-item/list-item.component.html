@@ -1,4 +1,18 @@
 <div class="container" *ngIf="propertyItem">
+	<a
+		class="directions"
+		mat-fab
+		[href]="
+			'https://www.google.com/maps?daddr=' +
+			propertyItem.streetAddress +
+			',' +
+			propertyItem.city
+		"
+		target="_blank"
+	>
+		<mat-icon>directions</mat-icon>
+	</a>
+
 	<div class="header">
 		<h4>{{ propertyItem.name }}</h4>
 		<p>{{ propertyItem.streetAddress }}, {{ propertyItem.city }}</p>
@@ -22,11 +36,8 @@
 			</a>
 		</div>
 		<div class="contact-action" *ngIf="propertyItem.url">
-			<a [href]="propertyItem.url">
-				<mat-icon
-					aria-hidden="false"
-					target="_blank"
-					aria-label="WEBSITE"
+			<a [href]="propertyItem.url" target="_blank">
+				<mat-icon aria-hidden="false" aria-label="WEBSITE"
 					>public</mat-icon
 				>
 				<p>WEBSITE</p>
@@ -51,61 +62,46 @@
 			<mat-expansion-panel-header>
 				<mat-panel-title>
 					<div class="list-item">
-						<mat-icon matListIcon>business</mat-icon>
-						<p matLine>
-							Atlantic Housing Management AKA Atlantic Housing
-							Foundation
+						<mat-icon matListIcon color="primary"
+							>business</mat-icon
+						>
+						<p matLine class="panel-title-p">
+							{{ propertyItem.management }}
 						</p>
 					</div>
 				</mat-panel-title>
 			</mat-expansion-panel-header>
 			<div class="list-item">
-				<mat-icon matListIcon>place</mat-icon>
-				<p matLine>Atlantic Housing 543543</p>
+				<mat-icon matListIcon color="primary">place</mat-icon>
+				<p matLine class="panel-title-p">
+					{{ propertyItem.managementOffices[0].streetAddress }},
+					{{ propertyItem.managementOffices[0].city }}
+					{{ propertyItem.managementOffices[0].state }}
+				</p>
 			</div>
 		</mat-expansion-panel>
 		<mat-list-item>
-			<mat-icon matListIcon>person</mat-icon>
-			<p matLine>Atlantic Housing</p>
+			<mat-icon matListIcon color="primary">person</mat-icon>
+			<p matLine>{{ propertyItem.onsiteManager }}</p>
 		</mat-list-item>
-		<mat-expansion-panel>
-			<mat-expansion-panel-header>
-				<mat-panel-title
-					_ngcontent-nxd-c15=""
-					class="mat-expansion-panel-header-title"
-					><mat-icon>business_center</mat-icon>
-					<span _ngcontent-nxd-c15="">Alyssa Lacy, Regional</span>
-				</mat-panel-title>
-			</mat-expansion-panel-header>
-			<mat-list _ngcontent-nxd-c15="" class="mat-list mat-list-base">
-				<a href="tel:(281) 495-0889">
-					<div class="mat-list-item-content">
-						<mat-icon>phone</mat-icon>
-						<div class="mat-list-text"></div>
-						(469) 206-8900
-					</div>
-				</a>
-				<a href="mailto:alacy@atlantichousing.org"
-					><div class="mat-list-item-content">
-						<mat-icon>email</mat-icon>
-						<div class="mat-list-text"></div>
-						alacy@atlantichousing.org
-					</div>
-				</a>
-			</mat-list>
-		</mat-expansion-panel>
-		<mat-list-item>
-			<mat-icon matListIcon>label</mat-icon>
-			<p matLine>Atlantic Housing</p>
+		<mat-list-item *ngIf="propertyItem.regionalName">
+			<mat-icon matListIcon color="primary">business_center</mat-icon>
+			<p matLine>{{ propertyItem.regionalName }}</p>
 		</mat-list-item>
 		<mat-list-item>
-			<mat-icon matListIcon>map</mat-icon>
-			<p matLine>Atlantic Housing</p>
+			<mat-icon matListIcon color="primary">label</mat-icon>
+			<p matLine>Section 8</p>
 		</mat-list-item>
 		<mat-list-item>
-			<mat-icon matListIcon>build</mat-icon>
-			<p matLine>Atlantic Housing</p>
-			<p matLine>Renovated</p>
+			<mat-icon matListIcon color="primary">map</mat-icon>
+			<p matLine>{{ propertyItem.neighborhood }}</p>
+		</mat-list-item>
+		<mat-list-item>
+			<mat-icon matListIcon color="primary">build</mat-icon>
+			<p matLine>Built {{ propertyItem.yearBuilt }}</p>
+			<p matLine *ngIf="propertyItem.yearRenovated">
+				Renovated {{ propertyItem.yearRenovated }}
+			</p>
 		</mat-list-item>
 	</mat-list>
 	<mat-divider></mat-divider>

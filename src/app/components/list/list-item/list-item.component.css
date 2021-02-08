@@ -7,6 +7,12 @@
 	padding: 1em;
 }
 
+.directions {
+	position: absolute;
+	top: 2.4em;
+	right: 1em;
+}
+
 .header,
 .contact {
 	background-color: #2196f3;
@@ -36,6 +42,10 @@
 
 mat-list {
 	padding: 0.5em;
+}
+
+.panel-title-p {
+	margin-left: 20px !important;
 }
 
 .gallery {
