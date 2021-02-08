@@ -1,3 +1,3 @@
 <mat-toolbar>
-	<span>Header</span>
+	<span>{{ (agentInfo$ | async)?.customHeader }}</span>
 </mat-toolbar>

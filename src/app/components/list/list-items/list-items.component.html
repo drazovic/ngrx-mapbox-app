@@ -1,0 +1,24 @@
+<mat-card
+	*ngFor="let listItem of listItems$ | async"
+	class="card"
+	(click)="onListItemSelected(listItem)"
+>
+	<div class="card-data">
+		<mat-card-header>
+			<mat-card-title>{{ listItem.name }}</mat-card-title>
+			<mat-card-subtitle>{{
+				listItem.streetAddress + "," + listItem.city
+			}}</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content>
+			<p>{{ listItem.management }}</p>
+		</mat-card-content>
+	</div>
+	<div class="card-image">
+		<img
+			mat-card-image
+			src="{{ listItem.photo }}"
+			alt="{{ listItem.name }}"
+		/>
+	</div>
+</mat-card>

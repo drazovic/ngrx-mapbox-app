@@ -1,0 +1,112 @@
+<div class="container" *ngIf="propertyItem">
+	<div class="header">
+		<h4>{{ propertyItem.name }}</h4>
+		<p>{{ propertyItem.streetAddress }}, {{ propertyItem.city }}</p>
+	</div>
+
+	<div class="contact">
+		<div class="contact-action">
+			<a [href]="'tel:' + propertyItem.phone">
+				<mat-icon aria-hidden="false" aria-label="PHONE"
+					>phone</mat-icon
+				>
+				<p>DIAL</p>
+			</a>
+		</div>
+		<div class="contact-action">
+			<a [href]="'mailto:' + propertyItem.email">
+				<mat-icon aria-hidden="false" aria-label="EMAIL"
+					>email</mat-icon
+				>
+				<p>EMAIL</p>
+			</a>
+		</div>
+		<div class="contact-action">
+			<a [href]="propertyItem.url">
+				<mat-icon
+					aria-hidden="false"
+					target="_blank"
+					aria-label="WEBSITE"
+					>public</mat-icon
+				>
+				<p>WEBSITE</p>
+			</a>
+		</div>
+	</div>
+
+	<div class="gallery">
+		<div
+			class="gallery-image-wrapper"
+			*ngFor="
+				let photo of propertyItem.photos | slice: 0:3;
+				let i = index
+			"
+		>
+			<img class="gallery-image" [src]="photo" />
+			<div *ngIf="i === 2" class="gallery-image-info">21 more</div>
+		</div>
+	</div>
+	<mat-list role="list">
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					<div class="list-item">
+						<mat-icon matListIcon>business</mat-icon>
+						<p matLine>
+							Atlantic Housing Management AKA Atlantic Housing
+							Foundation
+						</p>
+					</div>
+				</mat-panel-title>
+			</mat-expansion-panel-header>
+			<div class="list-item">
+				<mat-icon matListIcon>place</mat-icon>
+				<p matLine>Atlantic Housing 543543</p>
+			</div>
+		</mat-expansion-panel>
+		<mat-list-item>
+			<mat-icon matListIcon>person</mat-icon>
+			<p matLine>Atlantic Housing</p>
+		</mat-list-item>
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
+				<mat-panel-title
+					_ngcontent-nxd-c15=""
+					class="mat-expansion-panel-header-title"
+					><mat-icon>business_center</mat-icon>
+					<span _ngcontent-nxd-c15="">Alyssa Lacy, Regional</span>
+				</mat-panel-title>
+			</mat-expansion-panel-header>
+			<mat-list _ngcontent-nxd-c15="" class="mat-list mat-list-base">
+				<a href="tel:(281) 495-0889">
+					<div class="mat-list-item-content">
+						<mat-icon>phone</mat-icon>
+						<div class="mat-list-text"></div>
+						(469) 206-8900
+					</div>
+				</a>
+				<a href="mailto:alacy@atlantichousing.org"
+					><div class="mat-list-item-content">
+						<mat-icon>email</mat-icon>
+						<div class="mat-list-text"></div>
+						alacy@atlantichousing.org
+					</div>
+				</a>
+			</mat-list>
+		</mat-expansion-panel>
+		<mat-list-item>
+			<mat-icon matListIcon>label</mat-icon>
+			<p matLine>Atlantic Housing</p>
+		</mat-list-item>
+		<mat-list-item>
+			<mat-icon matListIcon>map</mat-icon>
+			<p matLine>Atlantic Housing</p>
+		</mat-list-item>
+		<mat-list-item>
+			<mat-icon matListIcon>build</mat-icon>
+			<p matLine>Atlantic Housing</p>
+			<p matLine>Renovated</p>
+		</mat-list-item>
+	</mat-list>
+	<mat-divider></mat-divider>
+</div>

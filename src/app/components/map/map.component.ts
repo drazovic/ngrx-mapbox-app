@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { LngLatLike, Map } from 'mapbox-gl';
+import { LngLatBoundsLike, LngLatLike, Map } from 'mapbox-gl';
 
 import { MapService } from './services/map.service';
 import * as fromApp from '../../store/app.reducer';
@@ -20,6 +20,7 @@ export class MapComponent implements OnInit {
 		lng: -95.41682110099543,
 	};
 	initialZoom = 11;
+    bounds: LngLatBoundsLike;
 	style =
 		'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ';
 	markers$: Observable<LngLatLike[]>;

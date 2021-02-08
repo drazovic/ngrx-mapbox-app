@@ -1,0 +1,22 @@
+.card {
+	max-width: 100%;
+	display: flex;
+	padding-bottom: 0px;
+	margin: 0.5em;
+	cursor: pointer;
+}
+
+.card-data {
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: auto;
+}
+
+.card-image {
+	display: flex;
+	flex-shrink: 0;
+	justify-content: flex-end;
+	align-items: flex-start;
+	flex-basis: 115px;
+	margin: 10px;
+}
