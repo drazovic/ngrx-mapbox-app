@@ -32,7 +32,6 @@ export class MapEffects {
 					bounds.extend(marker);
 					return bounds;
 				}, initialBounds);
-				console.log(bounds);
 
 				return { markers: markers, bounds: bounds };
 			}),

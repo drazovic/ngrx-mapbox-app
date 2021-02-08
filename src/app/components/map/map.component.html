@@ -1,7 +1,10 @@
 <mgl-map
+	*ngIf="bounds"
 	[center]="initialCenter"
 	[zoom]="[initialZoom]"
 	[style]="style"
+	[bounds]="bounds"
+	[fitBoundsOptions]="fitBoundsOptions"
 	(mapLoad)="onMapLoad($event)"
 	(moveEnd)="onMoveEnd($event)"
 >
