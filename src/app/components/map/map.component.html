@@ -3,12 +3,14 @@
 	[center]="initialCenter"
 	[zoom]="[initialZoom]"
 	[style]="style"
-	[bounds]="bounds"
+	[fitBounds]="bounds"
 	[fitBoundsOptions]="fitBoundsOptions"
 	(mapLoad)="onMapLoad($event)"
-	(moveEnd)="onMoveEnd($event)"
 >
-	<mgl-marker *ngFor="let listItem of listItems$ | async" [lngLat]="getCoords(listItem.geocode)">
+	<mgl-marker
+		*ngFor="let listItem of listItems$ | async"
+		[lngLat]="getCoords(listItem.geocode)"
+	>
 		<div (click)="onMarkerClicked(listItem)">
 			<img
 				width="20"

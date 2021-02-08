@@ -1,3 +1,3 @@
 <mat-toolbar>
-	<span>{{ (agentInfo$ | async)?.customHeader }}</span>
+	<span (click)="onHomeClick()">{{ (agentInfo$ | async)?.customHeader }}</span>
 </mat-toolbar>

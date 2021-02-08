@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { LngLat } from 'mapbox-gl';
 
@@ -20,7 +20,8 @@ export class ListItemsComponent implements OnInit {
 
 	constructor(
 		private store: Store<fromApp.AppState>,
-		private router: Router
+		private router: Router,
+		private route: ActivatedRoute
 	) {}
 
 	ngOnInit(): void {
@@ -34,6 +35,8 @@ export class ListItemsComponent implements OnInit {
 		);
 		this.store.dispatch(mapActions.markerClicked(coordinates));
 
-		this.router.navigate(['/', listItem.propertyID]);
+		this.router.navigate(['/', listItem.propertyID], {
+			relativeTo: this.route,
+		});
 	}
 }

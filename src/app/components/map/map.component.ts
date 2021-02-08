@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
 
-import { FitBoundsOptions, LngLatBoundsLike, LngLatLike, Map } from 'mapbox-gl';
+import { FitBoundsOptions, LngLatBoundsLike, Map } from 'mapbox-gl';
 
 import { MapService } from './services/map.service';
 import * as fromApp from '../../store/app.reducer';
@@ -10,6 +10,7 @@ import * as MapActions from './store/map.actions';
 import * as mapSelectors from './store/map.selectors';
 import { Router } from '@angular/router';
 import { Geocode, ListItem } from '../list/models/list-items';
+import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-map',
@@ -44,11 +45,6 @@ export class MapComponent implements OnInit {
 	onMapLoad(map: Map) {
 		this.mapService.setMap(map);
 		this.updateMap(map);
-	}
-
-	onMoveEnd(event: { target: Map }) {
-		const { target } = event;
-		this.updateMap(target);
 	}
 
 	updateMap(map: Map) {

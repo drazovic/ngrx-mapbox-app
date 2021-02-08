@@ -32,11 +32,14 @@ const mapReducer = createReducer(
 		bounds,
 		isMapLoaded: true,
 	})),
-	on(MapActions.loadData, (state, { listItems, bounds }) => ({
-		...state,
-		listItems: [...listItems],
-		bounds: bounds,
-	}))
+	on(MapActions.loadData, (state, { listItems, bounds }) => {
+		console.log(bounds);
+		return {
+			...state,
+			listItems: [...listItems],
+			bounds: bounds,
+		};
+	})
 );
 
 export function reducer(state: State | undefined, action: Action) {

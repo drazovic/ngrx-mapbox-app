@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
-import { debounceTime, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
 
-import { LngLat, LngLatBounds } from 'mapbox-gl';
+import { LngLatBounds } from 'mapbox-gl';
 import * as MapActions from './map.actions';
+import * as MapSelectors from './map.selectors';
 import { MapService } from '../services/map.service';
 import { DataService } from 'src/app/services/data.service';
+import * as fromApp from '../../../store/app.reducer';
 
 @Injectable()
 export class MapEffects {
@@ -14,6 +18,8 @@ export class MapEffects {
 			ofType(MapActions.fetchData),
 			switchMap(() => this.dataService.listItems),
 			map((listItems) => {
+                console.log(2132131);
+                
 				const initialBounds: LngLatBounds = new LngLatBounds();
 				const bounds = listItems.records.reduce((bounds, listItem) => {
 					const coords = this.mapService.getGeocodeCoords(
@@ -43,6 +49,7 @@ export class MapEffects {
 	constructor(
 		private actions$: Actions,
 		private dataService: DataService,
-		private mapService: MapService
+		private mapService: MapService,
+		private store: Store<fromApp.AppState>
 	) {}
 }
