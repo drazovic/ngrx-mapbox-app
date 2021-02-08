@@ -3,9 +3,9 @@ import { State } from './map.reducer';
 
 export const getMapState = createFeatureSelector<State>('map');
 
-export const getMarkers = createSelector(
+export const getListItems = createSelector(
 	getMapState,
-	(state: State) => state.markers
+	(state: State) => state.listItems
 );
 
 export const getBounds = createSelector(
@@ -21,4 +21,9 @@ export const getCenter = createSelector(
 export const getZoom = createSelector(
 	getMapState,
 	(state: State) => state.zoom
+);
+
+export const getIsMapLoaded = createSelector(
+	getMapState,
+	(state: State) => state.isMapLoaded
 );

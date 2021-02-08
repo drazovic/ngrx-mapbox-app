@@ -8,6 +8,8 @@ import { MapService } from './services/map.service';
 import * as fromApp from '../../store/app.reducer';
 import * as MapActions from './store/map.actions';
 import * as mapSelectors from './store/map.selectors';
+import { Router } from '@angular/router';
+import { Geocode, ListItem } from '../list/models/list-items';
 
 @Component({
 	selector: 'app-map',
@@ -24,13 +26,14 @@ export class MapComponent implements OnInit {
 	fitBoundsOptions: FitBoundsOptions = { padding: 60 };
 	style =
 		'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ';
-	markers$: Observable<LngLatLike[]>;
+	listItems$: Observable<ListItem[]>;
 
 	constructor(
 		private mapService: MapService,
-		private store: Store<fromApp.AppState>
+		private store: Store<fromApp.AppState>,
+		private router: Router
 	) {
-		this.markers$ = this.store.select(mapSelectors.getMarkers);
+		this.listItems$ = this.store.select(mapSelectors.getListItems);
 		this.store.select(mapSelectors.getBounds).subscribe((bounds) => {
 			this.bounds = bounds;
 		});
@@ -58,7 +61,11 @@ export class MapComponent implements OnInit {
 		);
 	}
 
-	onMarkerClicked(marker: LngLatLike) {
-		this.store.dispatch(MapActions.markerClicked(marker));
+	onMarkerClicked(listItem: ListItem) {
+		this.router.navigate([listItem.propertyID]);
+	}
+
+	getCoords(geocode: Geocode) {
+		return this.mapService.getGeocodeCoords(geocode);
 	}
 }

@@ -2,12 +2,14 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import * as MapActions from './map.actions';
 import { LngLatLike, LngLatBoundsLike } from 'mapbox-gl';
+import { ListItem } from '../../list/models/list-items';
 
 export interface State {
 	center: LngLatLike;
 	zoom: number;
 	bounds: LngLatBoundsLike;
-	markers: LngLatLike[];
+	listItems: ListItem[];
+	isMapLoaded: boolean;
 }
 
 export const initialState: State = {
@@ -17,7 +19,8 @@ export const initialState: State = {
 	},
 	zoom: 13,
 	bounds: undefined,
-	markers: [],
+	listItems: [],
+	isMapLoaded: false,
 };
 
 const mapReducer = createReducer(
@@ -27,10 +30,11 @@ const mapReducer = createReducer(
 		center,
 		zoom,
 		bounds,
+		isMapLoaded: true,
 	})),
-	on(MapActions.loadData, (state, { markers, bounds }) => ({
+	on(MapActions.loadData, (state, { listItems, bounds }) => ({
 		...state,
-		markers: [...markers],
+		listItems: [...listItems],
 		bounds: bounds,
 	}))
 );

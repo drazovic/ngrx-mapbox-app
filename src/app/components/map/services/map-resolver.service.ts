@@ -10,13 +10,14 @@ import { take } from 'rxjs/operators';
 
 import * as fromApp from '../../../store/app.reducer';
 import * as MapActions from '../store/map.actions';
-import { LngLatBoundsLike, LngLatLike } from 'mapbox-gl';
+import { LngLatBoundsLike } from 'mapbox-gl';
+import { ListItem } from '../../list/models/list-items';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class MapResolverService
-	implements Resolve<{ markers: LngLatLike[]; bounds: LngLatBoundsLike }> {
+	implements Resolve<{ listItems: ListItem[]; bounds: LngLatBoundsLike }> {
 	constructor(
 		private store: Store<fromApp.AppState>,
 		private actions$: Actions

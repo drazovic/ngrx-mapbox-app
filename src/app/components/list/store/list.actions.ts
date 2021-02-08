@@ -9,7 +9,10 @@ export const setListItems = createAction(
 	props<ListItems>()
 );
 
-export const fetchPropertyItem = createAction('[List] Fetch property item');
+export const fetchPropertyItem = createAction(
+	'[List] Fetch property item',
+	props<{ propertyID: number }>()
+);
 
 export const setPropertyItem = createAction(
 	'[List] Set property item',

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Map, LngLatLike } from 'mapbox-gl';
+import { Map, LngLatLike, LngLat } from 'mapbox-gl';
+import { Geocode } from '../../list/models/list-items';
 
 @Injectable({
 	providedIn: 'root',
@@ -19,5 +20,13 @@ export class MapService {
 			center,
 			zoom,
 		});
+	}
+
+	getGeocodeCoords(geocode: Geocode) {
+		const coords = new LngLat(
+			Number(geocode.Longitude),
+			Number(geocode.Latitude)
+		);
+		return coords;
 	}
 }

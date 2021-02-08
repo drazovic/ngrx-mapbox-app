@@ -14,26 +14,16 @@ export class MapEffects {
 			ofType(MapActions.fetchData),
 			switchMap(() => this.dataService.listItems),
 			map((listItems) => {
-				const initialMarkers: LngLat[] = [];
-				const markers = listItems.records.reduce(
-					(markers, listItem) => {
-						markers.push(
-							new LngLat(
-								Number(listItem.geocode.Longitude),
-								Number(listItem.geocode.Latitude)
-							)
-						);
-						return markers;
-					},
-					initialMarkers
-				);
 				const initialBounds: LngLatBounds = new LngLatBounds();
-				const bounds = markers.reduce((bounds, marker) => {
-					bounds.extend(marker);
+				const bounds = listItems.records.reduce((bounds, listItem) => {
+					const coords = this.mapService.getGeocodeCoords(
+						listItem.geocode
+					);
+					bounds.extend(coords);
 					return bounds;
 				}, initialBounds);
 
-				return { markers: markers, bounds: bounds };
+				return { listItems: listItems.records, bounds: bounds };
 			}),
 			map((data) => MapActions.loadData(data))
 		)

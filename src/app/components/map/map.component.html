@@ -8,8 +8,8 @@
 	(mapLoad)="onMapLoad($event)"
 	(moveEnd)="onMoveEnd($event)"
 >
-	<mgl-marker *ngFor="let marker of markers$ | async" [lngLat]="marker">
-		<div (click)="onMarkerClicked(marker)">
+	<mgl-marker *ngFor="let listItem of listItems$ | async" [lngLat]="getCoords(listItem.geocode)">
+		<div (click)="onMarkerClicked(listItem)">
 			<img
 				width="20"
 				src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Map_marker.svg/780px-Map_marker.svg.png"

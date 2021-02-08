@@ -22,7 +22,9 @@ export class ListResolverService implements Resolve<PropertyItem> {
 	) {}
 
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-		this.store.dispatch(ListActions.fetchPropertyItem());
+		this.store.dispatch(
+			ListActions.fetchPropertyItem({ propertyID: +route.params['id'] })
+		);
 		return this.actions$.pipe(ofType(ListActions.setPropertyItem), take(1));
 	}
 }
