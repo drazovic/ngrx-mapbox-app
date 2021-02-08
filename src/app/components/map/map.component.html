@@ -1,0 +1,16 @@
+<mgl-map
+	[center]="initialCenter"
+	[zoom]="[initialZoom]"
+	[style]="style"
+	(mapLoad)="onMapLoad($event)"
+	(moveEnd)="onMoveEnd($event)"
+>
+	<mgl-marker *ngFor="let marker of markers$ | async" [lngLat]="marker">
+		<div (click)="onMarkerClicked(marker)">
+			<img
+				width="20"
+				src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Map_marker.svg/780px-Map_marker.svg.png"
+			/>
+		</div>
+	</mgl-marker>
+</mgl-map>

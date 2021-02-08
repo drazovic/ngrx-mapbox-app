@@ -1,0 +1,38 @@
+.container {
+	width: 100%;
+	height: 100%;
+}
+
+.sidenav {
+	width: 25%;
+}
+
+.sidenav-content {
+	height: 100%;
+	width: 100%;
+}
+
+.toggle-icon {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+	z-index: 100;
+	visibility: hidden;
+}
+
+@media only screen and (max-width: 600px) {
+	.sidenav {
+		width: 100%;
+	}
+
+	.toggle-icon {
+		visibility: visible;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.sidenav {
+		visibility: visible !important;
+		transform: none;
+	}
+}
