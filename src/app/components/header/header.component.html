@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-	<span (click)="onHomeClick()" *ngIf="customHeader$">
+	<span class="link" (click)="onHomeClick()" *ngIf="customHeader$">
 		{{ customHeader$ | async }}
 	</span>
 </mat-toolbar>

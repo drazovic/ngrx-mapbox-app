@@ -3,9 +3,10 @@ import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs/operators';
 
 import { LngLatBounds } from 'mapbox-gl';
+
 import * as AppActions from './app.actions';
-import { DataService } from 'src/app/services/data.service';
-import { Marker } from '../models/Marker';
+import { DataService } from '../services/data.service';
+import { Marker } from '../models/Marker.model';
 
 @Injectable()
 export class AppEffects {

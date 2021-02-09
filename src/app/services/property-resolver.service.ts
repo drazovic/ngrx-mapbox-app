@@ -10,13 +10,13 @@ import { take } from 'rxjs/operators';
 
 import * as fromApp from '../store/app.reducer';
 import * as AppActions from '../store/app.actions';
-import { PropertyItem } from '../models';
-import { Marker } from '../models/Marker';
+import { Marker, PropertyItem } from '../models';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class PropertyResolverService implements Resolve<{propertyItem: PropertyItem, markers: Marker[]}> {
+export class PropertyResolverService
+	implements Resolve<{ propertyItem: PropertyItem; markers: Marker[] }> {
 	constructor(
 		private store: Store<fromApp.AppState>,
 		private actions$: Actions

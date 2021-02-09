@@ -1,11 +1,9 @@
 <mat-drawer-container class="container" autosize>
-	<mat-drawer #drawer class="sidenav" mode="side" opened>
+	<mat-drawer #drawer class="drawer" mode="side" opened>
 		<app-header></app-header>
-		<div class="items">
-			<router-outlet></router-outlet>
-		</div>
+		<router-outlet></router-outlet>
 	</mat-drawer>
-	<div class="sidenav-content">
+	<div class="drawer-content">
 		<app-map></app-map>
 	</div>
 </mat-drawer-container>

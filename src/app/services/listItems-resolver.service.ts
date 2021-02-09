@@ -8,15 +8,16 @@ import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { take } from 'rxjs/operators';
 
+import { LngLatBoundsLike } from 'mapbox-gl';
+
 import * as fromApp from '../store/app.reducer';
 import * as AppActions from '../store/app.actions';
-import { LngLatBoundsLike } from 'mapbox-gl';
-import { ListItems } from '../models/index';
+import { ListItems } from '../models';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class MapResolverService
+export class ListItemsResolverService
 	implements Resolve<{ listItems: ListItems; bounds: LngLatBoundsLike }> {
 	constructor(
 		private store: Store<fromApp.AppState>,

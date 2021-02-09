@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -14,21 +15,20 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './components/map/map.component';
-import { ListItemComponent } from './components/list-item/list-item.component';
+import { PropertyItemComponent } from './components/property-item/property-item.component';
 import { HeaderComponent } from './components/header/header.component';
-import { AppRoutingModule } from './app-routing.module';
+import { ListItemsComponent } from './components/list-items/list-items.component';
 import * as fromApp from './store/app.reducer';
 import { AppEffects } from './store/app.effects';
-import { HttpClientModule } from '@angular/common/http';
-import { ListItemsComponent } from './components/list-items/list-items.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		MapComponent,
-		ListItemComponent,
+		PropertyItemComponent,
 		HeaderComponent,
 		ListItemsComponent,
 	],

@@ -1,19 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 import * as AppSelectors from '../../store/app.selectors';
 import * as fromApp from '../../store/app.reducer';
-import { PropertyItem } from '../../models';
-import { Subscription } from 'rxjs';
 import * as MapActions from '../../store/app.actions';
-import { Marker } from 'src/app/models/Marker';
+import { PropertyItem, Marker } from '../../models';
 
 @Component({
-	selector: 'app-list-item',
-	templateUrl: './list-item.component.html',
-	styleUrls: ['./list-item.component.css'],
+	selector: 'app-property-item',
+	templateUrl: './property-item.component.html',
+	styleUrls: ['./property-item.component.css'],
 })
-export class ListItemComponent implements OnInit, OnDestroy {
+export class PropertyItemComponent implements OnInit, OnDestroy {
 	propertyItem: PropertyItem;
 	propertyItemSubscription: Subscription;
 	isMapLoadedItemSubscription: Subscription;
@@ -33,6 +32,10 @@ export class ListItemComponent implements OnInit, OnDestroy {
 				const marker = new Marker(this.propertyItem);
 				this.store.dispatch(MapActions.markerClicked(marker));
 			});
+	}
+
+	getDirections(propertyItem: PropertyItem) {
+		return `https://www.google.com/maps?daddr=${propertyItem.streetAddress},${propertyItem.city}`;
 	}
 
 	ngOnDestroy() {

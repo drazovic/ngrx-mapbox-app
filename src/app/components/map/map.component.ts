@@ -8,7 +8,7 @@ import { FitBoundsOptions, LngLatBoundsLike, Map } from 'mapbox-gl';
 import * as fromApp from '../../store/app.reducer';
 import * as MapActions from '../../store/app.actions';
 import * as mapSelectors from '../../store/app.selectors';
-import { Marker } from 'src/app/models/Marker';
+import { Marker } from '../../models';
 
 @Component({
 	selector: 'app-map',
@@ -21,7 +21,7 @@ export class MapComponent implements OnInit {
 		lng: -95.41682110099543,
 	};
 	initialZoom = 11;
-    maxZoom = 14;
+	maxZoom = 14;
 	bounds$: Observable<LngLatBoundsLike>;
 	fitBoundsOptions: FitBoundsOptions = { padding: 60 };
 	style =

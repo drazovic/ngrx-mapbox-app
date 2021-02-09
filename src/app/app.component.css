@@ -3,12 +3,12 @@
 	height: 100%;
 }
 
-.sidenav {
+.drawer {
 	width: 25%;
-	min-width: 400px;
+	min-width: 500px;
 }
 
-.sidenav-content {
+.drawer-content {
 	height: 100%;
 	width: 100%;
 }
@@ -21,8 +21,8 @@
 	visibility: hidden;
 }
 
-@media only screen and (max-width: 600px) {
-	.sidenav {
+@media only screen and (max-width: 500px) {
+	.drawer {
 		width: 100%;
 	}
 
@@ -31,8 +31,8 @@
 	}
 }
 
-@media only screen and (min-width: 600px) {
-	.sidenav {
+@media only screen and (min-width: 501px) {
+	.drawer {
 		visibility: visible !important;
 		transform: none;
 	}

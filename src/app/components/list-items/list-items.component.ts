@@ -3,11 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ListItem, ListItems } from '../../models';
 import * as fromApp from '../../store/app.reducer';
 import * as AppSelectors from '../../store/app.selectors';
 import * as AppActions from '../../store/app.actions';
-import { Marker } from 'src/app/models/Marker';
+import { ListItem, ListItems, Marker } from '../../models';
 
 @Component({
 	selector: 'app-list-items',

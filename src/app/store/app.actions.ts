@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 
 import { LngLatLike, LngLatBoundsLike } from 'mapbox-gl';
-import { ListItems, PropertyItem } from '../models';
-import { Marker } from '../models/Marker';
+
+import { ListItems, Marker, PropertyItem } from '../models';
 
 export const updateMap = createAction(
 	'[Map] Map updated',
@@ -21,12 +21,12 @@ export const setListItems = createAction(
 );
 
 export const fetchPropertyItem = createAction(
-	'[List] Fetch property item',
+	'[Property] Fetch property item',
 	props<{ propertyID: number }>()
 );
 
 export const setPropertyItem = createAction(
-	'[List] Set property item',
+	'[Property] Set property item',
 	props<{ propertyItem: PropertyItem; markers: Marker[] }>()
 );
 
