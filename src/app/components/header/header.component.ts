@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 
 import * as AppSelectors from '../../store/app.selectors';
 import * as MapActions from '../../store/app.actions';
@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.customHeader$ = this.store.select(AppSelectors.getListItems).pipe(
+			debounceTime(1000),
 			map((listItems) => {
 				return listItems
 					? listItems.agentInfo.customHeader
