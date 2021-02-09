@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import * as listSelectors from '../list/store/list.selectors';
-import * as MapActions from '../map/store/map.actions';
+import * as AppSelectors from '../../store/app.selectors';
+import * as MapActions from '../../store/app.actions';
 import * as fromApp from '../../store/app.reducer';
-import { AgentInfo } from '../list/models/list-items';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-header',
@@ -14,7 +14,7 @@ import { AgentInfo } from '../list/models/list-items';
 	styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-	agentInfo$: Observable<AgentInfo>;
+	customHeader$: Observable<string>;
 
 	constructor(
 		private store: Store<fromApp.AppState>,
@@ -22,11 +22,17 @@ export class HeaderComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.agentInfo$ = this.store.select(listSelectors.getAgentInfo);
+		this.customHeader$ = this.store.select(AppSelectors.getListItems).pipe(
+			map((listItems) => {
+				return listItems
+					? listItems.agentInfo.customHeader
+					: 'Back to results';
+			})
+		);
 	}
 
 	onHomeClick() {
-		this.store.dispatch(MapActions.fetchData());
+		this.store.dispatch(MapActions.fetchListItems());
 		this.router.navigate(['/']);
 	}
 }

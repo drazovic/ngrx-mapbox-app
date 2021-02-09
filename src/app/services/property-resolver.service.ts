@@ -8,23 +8,24 @@ import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { take } from 'rxjs/operators';
 
-import * as fromApp from '../../../store/app.reducer';
-import * as MapActions from '../store/map.actions';
-import { LngLatBoundsLike } from 'mapbox-gl';
-import { ListItem } from '../../list/models/list-items';
+import * as fromApp from '../store/app.reducer';
+import * as AppActions from '../store/app.actions';
+import { PropertyItem } from '../models';
+import { Marker } from '../models/Marker';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class MapResolverService
-	implements Resolve<{ listItems: ListItem[]; bounds: LngLatBoundsLike }> {
+export class PropertyResolverService implements Resolve<{propertyItem: PropertyItem, markers: Marker[]}> {
 	constructor(
 		private store: Store<fromApp.AppState>,
 		private actions$: Actions
 	) {}
 
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-		this.store.dispatch(MapActions.fetchData());
-		return this.actions$.pipe(ofType(MapActions.loadData), take(1));
+		this.store.dispatch(
+			AppActions.fetchPropertyItem({ propertyID: +route.params['id'] })
+		);
+		return this.actions$.pipe(ofType(AppActions.setPropertyItem), take(1));
 	}
 }

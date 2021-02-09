@@ -3,12 +3,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { LngLat } from 'mapbox-gl';
-
-import { ListItem } from '../models/list-items';
-import * as fromApp from '../../../store/app.reducer';
-import * as listSelectors from '../../list/store/list.selectors';
-import * as mapActions from '../../map/store/map.actions';
+import { ListItem, ListItems } from '../../models';
+import * as fromApp from '../../store/app.reducer';
+import * as AppSelectors from '../../store/app.selectors';
+import * as AppActions from '../../store/app.actions';
+import { Marker } from 'src/app/models/Marker';
 
 @Component({
 	selector: 'app-list-items',
@@ -16,7 +15,7 @@ import * as mapActions from '../../map/store/map.actions';
 	styleUrls: ['./list-items.component.css'],
 })
 export class ListItemsComponent implements OnInit {
-	listItems$: Observable<ListItem[]>;
+	listItems$: Observable<ListItems>;
 
 	constructor(
 		private store: Store<fromApp.AppState>,
@@ -25,15 +24,12 @@ export class ListItemsComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.listItems$ = this.store.select(listSelectors.getRecords);
+		this.listItems$ = this.store.select(AppSelectors.getListItems);
 	}
 
 	onListItemSelected(listItem: ListItem) {
-		const coordinates = new LngLat(
-			Number(listItem.geocode.Longitude),
-			Number(listItem.geocode.Latitude)
-		);
-		this.store.dispatch(mapActions.markerClicked(coordinates));
+		const marker = new Marker(listItem);
+		this.store.dispatch(AppActions.markerClicked(marker));
 
 		this.router.navigate(['/', listItem.propertyID], {
 			relativeTo: this.route,

@@ -16,21 +16,18 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { AppComponent } from './app.component';
 import { MapComponent } from './components/map/map.component';
-import { ListComponent } from './components/list/list.component';
-import { ListItemComponent } from './components/list/list-item/list-item.component';
+import { ListItemComponent } from './components/list-item/list-item.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import * as fromApp from './store/app.reducer';
-import { MapEffects } from './components/map/store/map.effects';
-import { ListEffects } from './components/list/store/list.effects';
+import { AppEffects } from './store/app.effects';
 import { HttpClientModule } from '@angular/common/http';
-import { ListItemsComponent } from './components/list/list-items/list-items.component';
+import { ListItemsComponent } from './components/list-items/list-items.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		MapComponent,
-		ListComponent,
 		ListItemComponent,
 		HeaderComponent,
 		ListItemsComponent,
@@ -52,8 +49,10 @@ import { ListItemsComponent } from './components/list/list-items/list-items.comp
 			accessToken:
 				'pk.eyJ1IjoiZHJhem92aWMiLCJhIjoiY2trcHhnazN0MGhkaTJuczFzMDh3dGpzbCJ9.yf783U8myk0GX_R-qtDOYA',
 		}),
-		StoreModule.forRoot(fromApp.appReducer),
-		EffectsModule.forRoot([MapEffects, ListEffects]),
+		StoreModule.forRoot({
+			app: fromApp.reducer,
+		}),
+		EffectsModule.forRoot([AppEffects]),
 	],
 	providers: [],
 	bootstrap: [AppComponent],

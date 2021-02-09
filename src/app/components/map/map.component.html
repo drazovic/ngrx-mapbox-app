@@ -2,6 +2,7 @@
 	*ngIf="bounds$ | async"
 	[center]="initialCenter"
 	[zoom]="[initialZoom]"
+    [maxZoom]="maxZoom"
 	[style]="style"
 	[fitBounds]="bounds$ | async"
 	[fitBoundsOptions]="fitBoundsOptions"
@@ -9,12 +10,12 @@
 >
 	<mgl-control mglNavigation position="top-left"></mgl-control>
 	<mgl-marker
-		*ngFor="let listItem of listItems$ | async"
-		[lngLat]="getCoords(listItem.geocode)"
+		*ngFor="let marker of markers$ | async"
+		[lngLat]="marker.coords"
 	>
-		<div (click)="onMarkerClicked(listItem)">
-			<div class="listing-order">
-				{{ listItem.order }}
+		<div (click)="onMarkerClicked(marker.propertyID)">
+			<div class="listing-order" *ngIf="marker.order">
+				{{ marker.order }}
 			</div>
 			<img [src]="markerType$ | async" />
 		</div>

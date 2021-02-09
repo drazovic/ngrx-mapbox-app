@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as listSelectors from '../../list/store/list.selectors';
-import * as fromApp from '../../../store/app.reducer';
-import { PropertyItem } from '../models/list-items';
+import * as AppSelectors from '../../store/app.selectors';
+import * as fromApp from '../../store/app.reducer';
+import { PropertyItem } from '../../models';
 import { Subscription } from 'rxjs';
-import { MapService } from '../../map/services/map.service';
-import * as MapActions from '../../map/store/map.actions';
-import * as MapSelectors from '../../map/store/map.selectors';
+import * as MapActions from '../../store/app.actions';
+import { Marker } from 'src/app/models/Marker';
 
 @Component({
 	selector: 'app-list-item',
@@ -19,27 +18,20 @@ export class ListItemComponent implements OnInit, OnDestroy {
 	propertyItemSubscription: Subscription;
 	isMapLoadedItemSubscription: Subscription;
 
-	constructor(
-		private store: Store<fromApp.AppState>,
-		private mapService: MapService
-	) {}
+	constructor(private store: Store<fromApp.AppState>) {}
 
 	ngOnInit(): void {
 		this.propertyItemSubscription = this.store
-			.select(listSelectors.getPropertyItem)
+			.select(AppSelectors.getPropertyItem)
 			.subscribe((propertyItem) => {
 				this.propertyItem = propertyItem;
 			});
 
 		this.isMapLoadedItemSubscription = this.store
-			.select(MapSelectors.getIsMapLoaded)
+			.select(AppSelectors.getIsMapLoaded)
 			.subscribe(() => {
-				if (this.mapService.map) {
-					const coords = this.mapService.getGeocodeCoords(
-						this.propertyItem.geocode
-					);
-					this.store.dispatch(MapActions.markerClicked(coords));
-				}
+				const marker = new Marker(this.propertyItem);
+				this.store.dispatch(MapActions.markerClicked(marker));
 			});
 	}
 
