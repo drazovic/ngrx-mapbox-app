@@ -23,6 +23,9 @@
                             "src/favicon.ico",
                             "src/assets"
                         ],
+                        "allowedCommonJsDependencies": [
+                            "@mapbox/mapbox-gl-geocoder"
+                        ],
                         "styles": [
                             "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
                             "src/styles.css",

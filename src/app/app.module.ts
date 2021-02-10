@@ -23,6 +23,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ListItemsComponent } from './components/list-items/list-items.component';
 import * as fromApp from './store/app.reducer';
 import { AppEffects } from './store/app.effects';
+import { environment } from '../environments/environment';
 
 @NgModule({
 	declarations: [
@@ -46,8 +47,7 @@ import { AppEffects } from './store/app.effects';
 		MatExpansionModule,
 		MatDividerModule,
 		NgxMapboxGLModule.withConfig({
-			accessToken:
-				'pk.eyJ1IjoiZHJhem92aWMiLCJhIjoiY2trcHhnazN0MGhkaTJuczFzMDh3dGpzbCJ9.yf783U8myk0GX_R-qtDOYA',
+			accessToken: environment.map.accessToken,
 		}),
 		StoreModule.forRoot({
 			app: fromApp.reducer,

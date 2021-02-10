@@ -23,7 +23,7 @@ export const initialState: AppState = {
 	},
 	zoom: 13,
 	bounds: undefined,
-	listItems: null,
+	listItems: undefined,
 	propertyItem: null,
 	isMapLoaded: false,
 	markers: [],

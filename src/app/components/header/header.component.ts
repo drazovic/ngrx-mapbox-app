@@ -23,11 +23,15 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.customHeader$ = this.store.select(AppSelectors.getListItems).pipe(
-			debounceTime(1000),
 			map((listItems) => {
-				return listItems
-					? listItems.agentInfo.customHeader
-					: 'Back to results';
+				switch (listItems) {
+					case null:
+						return 'Back to results';
+					case undefined:
+						return '';
+					default:
+						return listItems.agentInfo.customHeader;
+				}
 			})
 		);
 	}

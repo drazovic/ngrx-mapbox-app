@@ -9,7 +9,12 @@ body {
 	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/* override default Material styles */
+/* Override map width */
+.mapboxgl-canvas {
+	width: 100% !important;
+}
+
+/* Override default Material styles */
 .mat-drawer-inner-container {
 	overflow-y: hidden !important;
 }

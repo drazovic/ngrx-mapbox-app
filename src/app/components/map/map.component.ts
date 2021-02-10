@@ -9,6 +9,7 @@ import * as fromApp from '../../store/app.reducer';
 import * as MapActions from '../../store/app.actions';
 import * as mapSelectors from '../../store/app.selectors';
 import { Marker } from '../../models';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'app-map',
@@ -24,8 +25,7 @@ export class MapComponent implements OnInit {
 	maxZoom = 14;
 	bounds$: Observable<LngLatBoundsLike>;
 	fitBoundsOptions: FitBoundsOptions = { padding: 60 };
-	style =
-		'https://api.maptiler.com/maps/eef16200-c4cc-4285-9370-c71ca24bb42d/style.json?key=SoL71Zyf7SmLrVYWC7fQ';
+	style = environment.map.style;
 	markers$: Observable<Marker[]>;
 	markerType$: Observable<string>;
 

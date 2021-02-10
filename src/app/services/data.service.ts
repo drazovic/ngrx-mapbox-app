@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 import { ListItems, PropertyItem } from '../models';
 
@@ -9,6 +10,8 @@ import { ListItems, PropertyItem } from '../models';
 })
 export class DataService {
 	private _listItems$: Observable<ListItems>;
+	baseUrl = environment.api.baseUrl;
+	token = environment.api.token;
 
 	constructor(private http: HttpClient) {}
 
@@ -17,14 +20,14 @@ export class DataService {
 			return this._listItems$;
 		} else {
 			return (this._listItems$ = this.http.get<ListItems>(
-				`https://app.smartapartmentdata.com/List/json/listItems.aspx?listID=5638557&token=A0E2523B25B805CBB6F8EC9D98AF56457EE7A255&receipt=undefined`
+				`${this.baseUrl}/List/json/listItems.aspx?listID=5638557&token=${this.token}&receipt=undefined`
 			));
 		}
 	}
 
 	getPropertyItem(propertyID: number) {
 		return this.http.get<PropertyItem>(
-			`https://app.smartapartmentdata.com/List/json/propertyItem.aspx?listID=5638557&token=A0E2523B25B805CBB6F8EC9D98AF56457EE7A255&propertyID=${propertyID}`
+			`${this.baseUrl}/List/json/propertyItem.aspx?listID=5638557&token=${this.token}&propertyID=${propertyID}`
 		);
 	}
 }
