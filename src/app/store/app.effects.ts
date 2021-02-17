@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { LngLatBounds } from 'mapbox-gl';
 
-import { AppActionTypes, SetListItems, SetPropertyItem } from './app.actions';
+import * as AppActions from './app.actions';
 import { DataService } from '../services/data.service';
 import { Marker } from '../models/Marker.model';
 
@@ -12,7 +14,7 @@ import { Marker } from '../models/Marker.model';
 export class AppEffects {
 	fetchListItemsEffect$ = createEffect(() =>
 		this.actions$.pipe(
-			ofType(AppActionTypes.FetchListItems),
+			ofType(AppActions.AppActionTypes.FetchListItems),
 			switchMap(() => this.dataService.listItems),
 			map((listItems) => {
 				const initialBounds: LngLatBounds = new LngLatBounds();
@@ -39,14 +41,17 @@ export class AppEffects {
 			}),
 			map(
 				({ listItems, bounds, markers }) =>
-					new SetListItems({ listItems, bounds, markers })
+					new AppActions.SetListItems({ listItems, bounds, markers })
+			),
+			catchError((errorResponse: HttpErrorResponse) =>
+				of(new AppActions.FetchListItemsFail(errorResponse.message))
 			)
 		)
 	);
 
 	fetchPropertyItemEffect$ = createEffect(() =>
 		this.actions$.pipe(
-			ofType(AppActionTypes.FetchPropertyItem),
+			ofType(AppActions.AppActionTypes.FetchPropertyItem),
 			switchMap(({ propertyID }) =>
 				this.dataService.getPropertyItem(propertyID)
 			),
@@ -56,7 +61,10 @@ export class AppEffects {
 			}),
 			map(
 				({ propertyItem, markers }) =>
-					new SetPropertyItem({ propertyItem, markers })
+					new AppActions.SetPropertyItem({ propertyItem, markers })
+			),
+			catchError((errorResponse: HttpErrorResponse) =>
+				of(new AppActions.FetchPropertyItemFail(errorResponse.message))
 			)
 		)
 	);

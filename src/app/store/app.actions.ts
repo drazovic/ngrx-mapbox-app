@@ -9,8 +9,10 @@ import { PropertyItem } from '../models/PropertyItem.model';
 export enum AppActionTypes {
 	UpdateMap = '[Map] Map updated',
 	FetchListItems = '[ListItems] Fetch list items',
+	FetchListItemsFail = '[ListItems] Fetch list items fail',
 	SetListItems = '[ListItems] Set list items',
 	FetchPropertyItem = '[Property] Fetch property item',
+	FetchPropertyItemFail = '[Property] Fetch property item fail',
 	SetPropertyItem = '[Property] Set property item',
 	MarkerClicked = '[Map] Marker clicked',
 }
@@ -25,6 +27,14 @@ export class FetchListItems implements Action {
 	readonly type = AppActionTypes.FetchListItems;
 
 	constructor() {}
+}
+
+export class FetchListItemsFail implements Action {
+	readonly type = AppActionTypes.FetchListItemsFail;
+
+	constructor(public payload: string) {
+		console.log(payload);
+	}
 }
 
 export class SetListItems implements Action {
@@ -43,6 +53,14 @@ export class FetchPropertyItem implements Action {
 	readonly type = AppActionTypes.FetchPropertyItem;
 
 	constructor(public payload: { propertyID: number }) {}
+}
+
+export class FetchPropertyItemFail implements Action {
+	readonly type = AppActionTypes.FetchPropertyItemFail;
+
+	constructor(public payload: string) {
+		console.log(payload);
+	}
 }
 
 export class SetPropertyItem implements Action {
@@ -65,4 +83,6 @@ export type AppActions =
 	| SetListItems
 	| FetchPropertyItem
 	| SetPropertyItem
-	| MarkerClicked;
+	| MarkerClicked
+	| FetchListItemsFail
+	| FetchPropertyItemFail;
