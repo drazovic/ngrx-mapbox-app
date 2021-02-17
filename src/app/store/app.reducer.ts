@@ -1,10 +1,8 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { LngLatLike, LngLatBoundsLike, LngLatBounds } from 'mapbox-gl';
 
-import { LngLatLike, LngLatBoundsLike, LngLatBounds, Marker } from 'mapbox-gl';
-
-import * as AppActions from './app.actions';
+import { AppActions, AppActionTypes } from './app.actions';
 import { ListItems } from '../models/ListItems.model';
-import { MarkerTypes } from '../models/Marker.model';
+import { MarkerTypes, Marker } from '../models/Marker.model';
 import { PropertyItem } from '../models/PropertyItem.model';
 
 export interface AppState {
@@ -32,37 +30,52 @@ export const initialState: AppState = {
 	markerType: MarkerTypes.RED,
 };
 
-const mapReducer = createReducer(
-	initialState,
-	on(AppActions.updateMap, (state, { center, zoom }) => ({
-		...state,
-		center,
-		zoom,
-		isMapLoaded: true,
-	})),
-	on(AppActions.setListItems, (state, { listItems, bounds, markers }) => ({
-		...state,
-		listItems: { ...listItems },
-		bounds: bounds,
-		markerType: MarkerTypes.RED,
-		markers: [...markers],
-		propertyItem: null,
-	})),
-	on(AppActions.markerClicked, (state, marker) => ({
-		...state,
-		markerType: MarkerTypes.BLUE,
-		markers: [...[marker]],
-		bounds: new LngLatBounds(marker.coords, marker.coords),
-	})),
-	on(AppActions.setPropertyItem, (state, { propertyItem, markers }) => ({
-		...state,
-		markerType: MarkerTypes.BLUE,
-		propertyItem: { ...propertyItem },
-		markers: [...markers],
-		listItems: null,
-	}))
-);
+export function reducer(state = initialState, action: AppActions): AppState {
+	switch (action.type) {
+		case AppActionTypes.UpdateMap: {
+			return {
+				...state,
+				center: action.payload.center,
+				zoom: action.payload.zoom,
+				isMapLoaded: true,
+			};
+		}
 
-export function reducer(state: AppState | undefined, action: Action) {
-	return mapReducer(state, action);
+		case AppActionTypes.SetListItems: {
+			return {
+				...state,
+				listItems: { ...action.payload.listItems },
+				bounds: action.payload.bounds,
+				markerType: MarkerTypes.RED,
+				markers: [...action.payload.markers],
+				propertyItem: null,
+			};
+		}
+
+		case AppActionTypes.MarkerClicked: {
+			return {
+				...state,
+				markerType: MarkerTypes.BLUE,
+				markers: [...[action.payload]],
+				bounds: new LngLatBounds(
+					action.payload.coords,
+					action.payload.coords
+				),
+			};
+		}
+
+		case AppActionTypes.SetPropertyItem: {
+			return {
+				...state,
+				markerType: MarkerTypes.BLUE,
+				propertyItem: { ...action.payload.propertyItem },
+				markers: [...action.payload.markers],
+				listItems: null,
+			};
+		}
+
+		default: {
+			return state;
+		}
+	}
 }

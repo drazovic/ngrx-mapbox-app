@@ -29,7 +29,7 @@ export class ListItemsComponent implements OnInit {
 
 	onListItemSelected(listItem: ListItem) {
 		const marker = new Marker(listItem);
-		this.store.dispatch(AppActions.markerClicked(marker));
+		this.store.dispatch(new AppActions.MarkerClicked(marker));
 
 		this.router.navigate(['/', listItem.propertyID], {
 			relativeTo: this.route,

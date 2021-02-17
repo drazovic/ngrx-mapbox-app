@@ -4,7 +4,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { LngLatBounds } from 'mapbox-gl';
 
-import * as AppActions from './app.actions';
+import { AppActionTypes, SetListItems, SetPropertyItem } from './app.actions';
 import { DataService } from '../services/data.service';
 import { Marker } from '../models/Marker.model';
 
@@ -12,7 +12,7 @@ import { Marker } from '../models/Marker.model';
 export class AppEffects {
 	fetchListItemsEffect$ = createEffect(() =>
 		this.actions$.pipe(
-			ofType(AppActions.fetchListItems),
+			ofType(AppActionTypes.FetchListItems),
 			switchMap(() => this.dataService.listItems),
 			map((listItems) => {
 				const initialBounds: LngLatBounds = new LngLatBounds();
@@ -37,15 +37,16 @@ export class AppEffects {
 					markers: markers,
 				};
 			}),
-			map(({ listItems, bounds, markers }) =>
-				AppActions.setListItems({ listItems, bounds, markers })
+			map(
+				({ listItems, bounds, markers }) =>
+					new SetListItems({ listItems, bounds, markers })
 			)
 		)
 	);
 
 	fetchPropertyItemEffect$ = createEffect(() =>
 		this.actions$.pipe(
-			ofType(AppActions.fetchPropertyItem),
+			ofType(AppActionTypes.FetchPropertyItem),
 			switchMap(({ propertyID }) =>
 				this.dataService.getPropertyItem(propertyID)
 			),
@@ -53,8 +54,9 @@ export class AppEffects {
 				const marker = new Marker(propertyItem);
 				return { propertyItem: propertyItem, markers: [marker] };
 			}),
-			map(({ propertyItem, markers }) =>
-				AppActions.setPropertyItem({ propertyItem, markers })
+			map(
+				({ propertyItem, markers }) =>
+					new SetPropertyItem({ propertyItem, markers })
 			)
 		)
 	);

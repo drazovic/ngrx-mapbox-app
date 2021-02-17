@@ -25,8 +25,13 @@ export class PropertyResolverService
 
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 		this.store.dispatch(
-			AppActions.fetchPropertyItem({ propertyID: +route.params['id'] })
+			new AppActions.FetchPropertyItem({
+				propertyID: +route.params['id'],
+			})
 		);
-		return this.actions$.pipe(ofType(AppActions.setPropertyItem), take(1));
+		return this.actions$.pipe(
+			ofType(AppActions.AppActionTypes.SetPropertyItem),
+			take(1)
+		);
 	}
 }

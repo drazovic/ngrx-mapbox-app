@@ -42,7 +42,7 @@ export class MapComponent implements OnInit {
 
 	onMapLoad(map: Map) {
 		this.store.dispatch(
-			MapActions.updateMap({
+			new MapActions.UpdateMap({
 				center: map.getCenter(),
 				zoom: map.getZoom(),
 			})

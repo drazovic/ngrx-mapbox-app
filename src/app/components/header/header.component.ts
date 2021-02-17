@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	onHomeClick() {
-		this.store.dispatch(MapActions.fetchListItems());
+		this.store.dispatch(new MapActions.FetchListItems());
 		this.router.navigate(['/']);
 	}
 }

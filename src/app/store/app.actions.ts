@@ -1,36 +1,68 @@
-import { createAction, props } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
-import { LngLatLike, LngLatBoundsLike, Marker } from 'mapbox-gl';
+import { LngLatLike, LngLatBoundsLike } from 'mapbox-gl';
+
 import { ListItems } from '../models/ListItems.model';
+import { Marker } from '../models/Marker.model';
 import { PropertyItem } from '../models/PropertyItem.model';
 
-export const updateMap = createAction(
-	'[Map] Map updated',
-	props<{ center: LngLatLike; zoom: number }>()
-);
+export enum AppActionTypes {
+	UpdateMap = '[Map] Map updated',
+	FetchListItems = '[ListItems] Fetch list items',
+	SetListItems = '[ListItems] Set list items',
+	FetchPropertyItem = '[Property] Fetch property item',
+	SetPropertyItem = '[Property] Set property item',
+	MarkerClicked = '[Map] Marker clicked',
+}
 
-export const fetchListItems = createAction('[ListItems] Fetch list items');
+export class UpdateMap implements Action {
+	readonly type = AppActionTypes.UpdateMap;
 
-export const setListItems = createAction(
-	'[ListItems] Set list items',
-	props<{
-		listItems: ListItems;
-		bounds: LngLatBoundsLike;
-		markers: Marker[];
-	}>()
-);
+	constructor(public payload: { center: LngLatLike; zoom: number }) {}
+}
 
-export const fetchPropertyItem = createAction(
-	'[Property] Fetch property item',
-	props<{ propertyID: number }>()
-);
+export class FetchListItems implements Action {
+	readonly type = AppActionTypes.FetchListItems;
 
-export const setPropertyItem = createAction(
-	'[Property] Set property item',
-	props<{ propertyItem: PropertyItem; markers: Marker[] }>()
-);
+	constructor() {}
+}
 
-export const markerClicked = createAction(
-	'[Map] Marker clicked',
-	props<Marker>()
-);
+export class SetListItems implements Action {
+	readonly type = AppActionTypes.SetListItems;
+
+	constructor(
+		public payload: {
+			listItems: ListItems;
+			bounds: LngLatBoundsLike;
+			markers: Marker[];
+		}
+	) {}
+}
+
+export class FetchPropertyItem implements Action {
+	readonly type = AppActionTypes.FetchPropertyItem;
+
+	constructor(public payload: { propertyID: number }) {}
+}
+
+export class SetPropertyItem implements Action {
+	readonly type = AppActionTypes.SetPropertyItem;
+
+	constructor(
+		public payload: { propertyItem: PropertyItem; markers: Marker[] }
+	) {}
+}
+
+export class MarkerClicked implements Action {
+	readonly type = AppActionTypes.MarkerClicked;
+
+	constructor(public payload: Marker) {}
+}
+
+export type AppActions =
+	| UpdateMap
+	| FetchListItems
+	| SetListItems
+	| FetchPropertyItem
+	| SetPropertyItem
+	| MarkerClicked;

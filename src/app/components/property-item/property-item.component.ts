@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 import * as AppSelectors from '../../store/app.selectors';
 import * as fromApp from '../../store/app.reducer';
-import * as MapActions from '../../store/app.actions';
+import * as AppActions from '../../store/app.actions';
 import { PropertyItem } from 'src/app/models/PropertyItem.model';
 import { Marker } from 'src/app/models/Marker.model';
 
@@ -31,7 +31,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
 			.select(AppSelectors.getIsMapLoaded)
 			.subscribe(() => {
 				const marker = new Marker(this.propertyItem);
-				this.store.dispatch(MapActions.markerClicked(marker));
+				this.store.dispatch(new AppActions.MarkerClicked(marker));
 			});
 	}
 

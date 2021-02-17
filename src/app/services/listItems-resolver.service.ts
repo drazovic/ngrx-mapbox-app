@@ -25,7 +25,10 @@ export class ListItemsResolverService
 	) {}
 
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-		this.store.dispatch(AppActions.fetchListItems());
-		return this.actions$.pipe(ofType(AppActions.setListItems), take(1));
+		this.store.dispatch(new AppActions.FetchListItems());
+		return this.actions$.pipe(
+			ofType(AppActions.AppActionTypes.SetListItems),
+			take(1)
+		);
 	}
 }
