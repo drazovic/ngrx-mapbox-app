@@ -8,8 +8,8 @@ import { FitBoundsOptions, LngLatBoundsLike, Map } from 'mapbox-gl';
 import * as fromApp from '../../store/app.reducer';
 import * as MapActions from '../../store/app.actions';
 import * as mapSelectors from '../../store/app.selectors';
-import { Marker } from '../../models';
 import { environment } from 'src/environments/environment';
+import { Marker } from 'src/app/models/Marker.model';
 
 @Component({
 	selector: 'app-map',

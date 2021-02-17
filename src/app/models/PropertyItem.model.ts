@@ -1,4 +1,4 @@
-import { Geocode } from './';
+import { Geocode } from './ListItems.model';
 
 interface Parking {
 	propertyID: number;

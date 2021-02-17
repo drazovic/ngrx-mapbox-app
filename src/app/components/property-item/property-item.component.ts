@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs';
 import * as AppSelectors from '../../store/app.selectors';
 import * as fromApp from '../../store/app.reducer';
 import * as MapActions from '../../store/app.actions';
-import { PropertyItem, Marker } from '../../models';
+import { PropertyItem } from 'src/app/models/PropertyItem.model';
+import { Marker } from 'src/app/models/Marker.model';
 
 @Component({
 	selector: 'app-property-item',

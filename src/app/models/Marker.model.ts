@@ -1,6 +1,7 @@
 import { LngLat, LngLatLike } from 'mapbox-gl';
 
-import { PropertyItem, Geocode, ListItem } from '../models';
+import { ListItem, Geocode } from './ListItems.model';
+import { PropertyItem } from './PropertyItem.model';
 
 export class Marker {
 	coords: LngLatLike;

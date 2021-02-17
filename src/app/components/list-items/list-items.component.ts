@@ -6,7 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as fromApp from '../../store/app.reducer';
 import * as AppSelectors from '../../store/app.selectors';
 import * as AppActions from '../../store/app.actions';
-import { ListItem, ListItems, Marker } from '../../models';
+import { ListItems, ListItem } from 'src/app/models/ListItems.model';
+import { Marker } from 'src/app/models/Marker.model';
 
 @Component({
 	selector: 'app-list-items',

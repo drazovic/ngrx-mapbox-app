@@ -1,9 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { LngLatLike, LngLatBoundsLike, LngLatBounds } from 'mapbox-gl';
+import { LngLatLike, LngLatBoundsLike, LngLatBounds, Marker } from 'mapbox-gl';
 
 import * as AppActions from './app.actions';
-import { ListItems, Marker, MarkerTypes, PropertyItem } from '../models';
+import { ListItems } from '../models/ListItems.model';
+import { MarkerTypes } from '../models/Marker.model';
+import { PropertyItem } from '../models/PropertyItem.model';
 
 export interface AppState {
 	center: LngLatLike;

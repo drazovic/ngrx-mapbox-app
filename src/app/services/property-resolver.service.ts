@@ -10,7 +10,8 @@ import { take } from 'rxjs/operators';
 
 import * as fromApp from '../store/app.reducer';
 import * as AppActions from '../store/app.actions';
-import { Marker, PropertyItem } from '../models';
+import { PropertyItem } from '../models/PropertyItem.model';
+import { Marker } from '../models/Marker.model';
 
 @Injectable({
 	providedIn: 'root',

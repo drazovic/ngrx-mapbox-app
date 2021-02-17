@@ -12,7 +12,7 @@ import { LngLatBoundsLike } from 'mapbox-gl';
 
 import * as fromApp from '../store/app.reducer';
 import * as AppActions from '../store/app.actions';
-import { ListItems } from '../models';
+import { ListItems } from '../models/ListItems.model';
 
 @Injectable({
 	providedIn: 'root',

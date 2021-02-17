@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-import { ListItems, PropertyItem } from '../models';
+import { ListItems } from '../models/ListItems.model';
+import { PropertyItem } from '../models/PropertyItem.model';
 
 @Injectable({
 	providedIn: 'root',
