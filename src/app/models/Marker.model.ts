@@ -24,6 +24,6 @@ export class Marker {
 }
 
 export enum MarkerTypes {
-	BLUE = 'https://my.smartapartmentdata.com/assets/images/pin/pin-blue.svg',
-	RED = 'https://my.smartapartmentdata.com/assets/images/pin/pin-red.svg',
+	BLUE = '../../assets/images/pin/pin-blue.svg',
+	RED = '../../assets/images/pin/pin-red.svg',
 }

@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+	AfterViewInit,
+	Component,
+	ElementRef,
+	OnInit,
+	ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -10,13 +16,16 @@ import * as MapActions from '../../store/app.actions';
 import * as mapSelectors from '../../store/app.selectors';
 import { environment } from 'src/environments/environment';
 import { Marker } from 'src/app/models/Marker.model';
+import { MapService } from './map.service';
 
 @Component({
 	selector: 'app-map',
 	templateUrl: './map.component.html',
 	styleUrls: ['./map.component.css'],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, AfterViewInit {
+	@ViewChild('map') map: ElementRef;
+
 	initialCenter = {
 		lat: 29.701546276233813,
 		lng: -95.41682110099543,
@@ -31,7 +40,8 @@ export class MapComponent implements OnInit {
 
 	constructor(
 		private store: Store<fromApp.AppState>,
-		private router: Router
+		private router: Router,
+		private mapService: MapService
 	) {
 		this.markers$ = this.store.select(mapSelectors.getMarkers);
 		this.bounds$ = this.store.select(mapSelectors.getBounds);
@@ -39,6 +49,16 @@ export class MapComponent implements OnInit {
 	}
 
 	ngOnInit(): void {}
+
+	ngAfterViewInit() {
+		this.mapService.buildMap(this.map.nativeElement);
+		this.markers$.subscribe((markers) => {
+			if (markers.length > 0) {
+				console.log(markers);
+				this.mapService.setFeatureCollectionMarkers(markers);
+			}
+		});
+	}
 
 	onMapLoad(map: Map) {
 		this.store.dispatch(
@@ -49,7 +69,7 @@ export class MapComponent implements OnInit {
 		);
 	}
 
-	onMarkerClicked(propertyID: number) {
-		this.router.navigate([propertyID]);
-	}
+	// onMarkerClicked(propertyID: number) {
+	// 	this.router.navigate([propertyID]);
+	// }
 }
