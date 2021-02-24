@@ -12,11 +12,10 @@ import { Router } from '@angular/router';
 import { FitBoundsOptions, LngLatBoundsLike, Map } from 'mapbox-gl';
 
 import * as fromApp from '../../store/app.reducer';
-import * as MapActions from '../../store/app.actions';
 import * as mapSelectors from '../../store/app.selectors';
 import { environment } from 'src/environments/environment';
-import { Marker } from 'src/app/models/Marker.model';
 import { MapService } from './map.service';
+import { GeoJSONFeature } from 'src/app/models/GeoJSONFeature.model';
 
 @Component({
 	selector: 'app-map',
@@ -24,18 +23,13 @@ import { MapService } from './map.service';
 	styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements OnInit, AfterViewInit {
-	@ViewChild('map') map: ElementRef;
+	@ViewChild('map') mapRef: ElementRef;
 
-	initialCenter = {
-		lat: 29.701546276233813,
-		lng: -95.41682110099543,
-	};
-	initialZoom = 11;
-	maxZoom = 14;
+	map: mapboxgl.Map;
 	bounds$: Observable<LngLatBoundsLike>;
 	fitBoundsOptions: FitBoundsOptions = { padding: 60 };
 	style = environment.map.style;
-	markers$: Observable<Marker[]>;
+	features$: Observable<GeoJSONFeature[]>;
 	markerType$: Observable<string>;
 
 	constructor(
@@ -43,7 +37,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 		private router: Router,
 		private mapService: MapService
 	) {
-		this.markers$ = this.store.select(mapSelectors.getMarkers);
+		this.features$ = this.store.select(mapSelectors.getFeatures);
 		this.bounds$ = this.store.select(mapSelectors.getBounds);
 		this.markerType$ = this.store.select(mapSelectors.getMarkerType);
 	}
@@ -51,25 +45,25 @@ export class MapComponent implements OnInit, AfterViewInit {
 	ngOnInit(): void {}
 
 	ngAfterViewInit() {
-		this.mapService.buildMap(this.map.nativeElement);
-		this.markers$.subscribe((markers) => {
-			if (markers.length > 0) {
-				console.log(markers);
-				this.mapService.setFeatureCollectionMarkers(markers);
+		this.map = this.mapService.buildMap(this.mapRef.nativeElement);
+
+		this.map.on('load', (event) => {
+			this.map.on('click', 'points', (e) => {
+				// this.mapService.setFeatureMarker(
+				// 	e.features[0].geometry['coordinates']
+				// );
+				// this.map.setLayoutProperty('points', 'visibility', 'none');
+				console.log(e.features[0].properties.propertyID);
+
+				this.router.navigate([e.features[0].properties.propertyID]);
+			});
+		});
+
+		this.features$.subscribe((features) => {
+			if (features.length > 0) {
+				console.log(features);
+				this.mapService.setFeatureCollection(features);
 			}
 		});
 	}
-
-	onMapLoad(map: Map) {
-		this.store.dispatch(
-			new MapActions.UpdateMap({
-				center: map.getCenter(),
-				zoom: map.getZoom(),
-			})
-		);
-	}
-
-	// onMarkerClicked(propertyID: number) {
-	// 	this.router.navigate([propertyID]);
-	// }
 }

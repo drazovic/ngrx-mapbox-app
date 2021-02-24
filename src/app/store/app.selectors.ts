@@ -29,9 +29,9 @@ export const getIsMapLoaded = createSelector(
 	(state: AppState) => state.isMapLoaded
 );
 
-export const getMarkers = createSelector(
+export const getFeatures = createSelector(
 	getAppState,
-	(state: AppState) => state.markers
+	(state: AppState) => state.features
 );
 
 export const getMarkerType = createSelector(

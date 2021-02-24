@@ -2,8 +2,8 @@ import { LngLatLike, LngLatBoundsLike, LngLatBounds } from 'mapbox-gl';
 
 import { AppActions, AppActionTypes } from './app.actions';
 import { ListItems } from '../models/ListItems.model';
-import { MarkerTypes, Marker } from '../models/Marker.model';
 import { PropertyItem } from '../models/PropertyItem.model';
+import { GeoJSONFeature, MarkerTypes } from '../models/GeoJSONFeature.model';
 
 export interface AppState {
 	center: LngLatLike;
@@ -12,7 +12,7 @@ export interface AppState {
 	listItems: ListItems;
 	propertyItem: PropertyItem;
 	isMapLoaded: boolean;
-	markers: Marker[];
+	features: GeoJSONFeature[];
 	markerType: string;
 }
 
@@ -26,7 +26,7 @@ export const initialState: AppState = {
 	listItems: undefined,
 	propertyItem: null,
 	isMapLoaded: false,
-	markers: [],
+	features: [],
 	markerType: MarkerTypes.RED,
 };
 
@@ -47,20 +47,21 @@ export function reducer(state = initialState, action: AppActions): AppState {
 				listItems: { ...action.payload.listItems },
 				bounds: action.payload.bounds,
 				markerType: MarkerTypes.RED,
-				markers: [...action.payload.markers],
+				features: [...action.payload.features],
 				propertyItem: null,
 			};
 		}
 
 		case AppActionTypes.MarkerClicked: {
+			const lngLat = GeoJSONFeature.convertCoordsToLngLat(
+				action.payload.geometry.coordinates
+			);
+
 			return {
 				...state,
 				markerType: MarkerTypes.BLUE,
-				markers: [...[action.payload]],
-				bounds: new LngLatBounds(
-					action.payload.coords,
-					action.payload.coords
-				),
+				features: [...[action.payload]],
+				bounds: new LngLatBounds(lngLat, lngLat),
 			};
 		}
 
@@ -69,7 +70,7 @@ export function reducer(state = initialState, action: AppActions): AppState {
 				...state,
 				markerType: MarkerTypes.BLUE,
 				propertyItem: { ...action.payload.propertyItem },
-				markers: [...action.payload.markers],
+				features: [...action.payload.features],
 				listItems: null,
 			};
 		}

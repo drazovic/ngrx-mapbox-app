@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 
 import { LngLatLike, LngLatBoundsLike } from 'mapbox-gl';
+import { GeoJSONFeature } from '../models/GeoJSONFeature.model';
 
 import { ListItems } from '../models/ListItems.model';
-import { Marker } from '../models/Marker.model';
 import { PropertyItem } from '../models/PropertyItem.model';
 
 export enum AppActionTypes {
@@ -44,7 +44,7 @@ export class SetListItems implements Action {
 		public payload: {
 			listItems: ListItems;
 			bounds: LngLatBoundsLike;
-			markers: Marker[];
+			features: GeoJSONFeature[];
 		}
 	) {}
 }
@@ -67,14 +67,17 @@ export class SetPropertyItem implements Action {
 	readonly type = AppActionTypes.SetPropertyItem;
 
 	constructor(
-		public payload: { propertyItem: PropertyItem; markers: Marker[] }
+		public payload: {
+			propertyItem: PropertyItem;
+			features: GeoJSONFeature[];
+		}
 	) {}
 }
 
 export class MarkerClicked implements Action {
 	readonly type = AppActionTypes.MarkerClicked;
 
-	constructor(public payload: Marker) {}
+	constructor(public payload: GeoJSONFeature) {}
 }
 
 export type AppActions =

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 import * as mapboxgl from 'mapbox-gl';
-import { Marker } from 'src/app/models/Marker.model';
+import { GeoJSONFeature } from 'src/app/models/GeoJSONFeature.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -21,19 +21,25 @@ export class MapService {
 		(mapboxgl.accessToken as any) = environment.map.accessToken;
 	}
 
-	setFeatureMarker(marker: Marker) {
+	buildMap(divElement: HTMLElement) {
+		this.map = new mapboxgl.Map({
+			container: divElement,
+			style: this.style,
+			zoom: this.initialZoom,
+			center: this.initialCenter,
+		});
+
+		this.addNavigationControl();
+
+		this.loadPinImages();
+
+		return this.map;
+	}
+
+	setFeatureMarker(feature: GeoJSONFeature) {
 		this.map.addSource('point', {
 			type: 'geojson',
-			data: {
-				type: 'Feature',
-				geometry: {
-					type: 'Point',
-					coordinates: [-95.608796, 29.719188],
-				},
-				properties: {
-					title: 'Mapbox SF',
-				},
-			},
+			data: feature,
 		});
 
 		// Add a symbol layer
@@ -43,36 +49,18 @@ export class MapService {
 			source: 'point',
 			layout: {
 				'icon-image': 'point-marker',
-				// get the title name from the source's "title" property
-				'text-field': ['get', 'title'],
-				'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-				'text-offset': [0, 1.25],
-				'text-anchor': 'top',
 			},
 		});
 
-        this.map.flyTo({
-            center: marker.coords,
-            zoom: 13,
-        });
+		this.map.flyTo({
+			center: GeoJSONFeature.convertCoordsToLngLat(
+				feature.geometry.coordinates
+			),
+			zoom: 13,
+		});
 	}
 
-	setFeatureCollectionMarkers(markers: Marker[]) {
-		const features = markers.map<any>((marker) => {
-			console.log(marker);
-
-			return {
-				type: 'Feature',
-				geometry: {
-					type: 'Point',
-					coordinates: [Number(marker.coords['lng']), Number(marker.coords['lat'])],
-				},
-				properties: {
-					title: marker.order,
-				},
-			};
-		});
-
+	setFeatureCollection(features: GeoJSONFeature[]) {
 		this.map.addSource('points', {
 			type: 'geojson',
 			data: {
@@ -89,33 +77,29 @@ export class MapService {
 			layout: {
 				'icon-image': 'points-marker',
 				// get the title name from the source's "title" property
-				'text-field': ['get', 'title'],
+				'text-field': ['get', 'order'],
 				'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-				'text-offset': [0, 1.25],
-				'text-anchor': 'top',
+				'text-offset': [-1, 0],
+				'text-anchor': 'bottom',
 			},
 		});
 
-		const bounds = markers.reduce((accumulator, marker) => {
-			accumulator.extend(marker.coords);
+		const bounds = features.reduce((accumulator, feature) => {
+			const lngLat = GeoJSONFeature.convertCoordsToLngLat(
+				feature.geometry.coordinates
+			);
+			accumulator.extend(lngLat);
 			return accumulator;
 		}, new mapboxgl.LngLatBounds());
 
 		this.map.fitBounds(bounds, { padding: 60 });
 	}
 
-	buildMap(divElement: HTMLElement) {
-		console.log(12);
-
-		this.map = new mapboxgl.Map({
-			container: divElement,
-			style: this.style,
-			zoom: this.initialZoom,
-			center: this.initialCenter,
-		});
-
+	private addNavigationControl() {
 		this.map.addControl(new mapboxgl.NavigationControl());
+	}
 
+	private loadPinImages() {
 		this.map.loadImage(
 			'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png',
 			(error, image) => {
@@ -123,6 +107,7 @@ export class MapService {
 				this.map.addImage('points-marker', image);
 			}
 		);
+
 		this.map.loadImage(
 			'https://cdn2.iconfinder.com/data/icons/bitsies/128/Location-32.png',
 			(error, image) => {
@@ -130,15 +115,5 @@ export class MapService {
 				this.map.addImage('point-marker', image);
 			}
 		);
-
-		this.map.on('load', (event) => {
-			this.map.on('click', 'points', (e) => {
-				console.log(e.features);
-
-				this.setFeatureMarker(e.features[0].geometry['coordinates'])
-
-				this.map.setLayoutProperty('points', 'visibility', 'none');
-			});
-		});
 	}
 }

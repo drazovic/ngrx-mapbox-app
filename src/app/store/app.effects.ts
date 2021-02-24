@@ -8,7 +8,7 @@ import { LngLatBounds } from 'mapbox-gl';
 
 import * as AppActions from './app.actions';
 import { DataService } from '../services/data.service';
-import { Marker } from '../models/Marker.model';
+import { GeoJSONFeature } from '../models/GeoJSONFeature.model';
 
 @Injectable()
 export class AppEffects {
@@ -19,29 +19,26 @@ export class AppEffects {
 			map((listItems) => {
 				const initialBounds: LngLatBounds = new LngLatBounds();
 				const bounds = listItems.records.reduce((bounds, listItem) => {
-					const coords = Marker.getGeocodeCoords(listItem.geocode);
+					const coords = GeoJSONFeature.convertGeocodeToLngLat(
+						listItem.geocode
+					);
 					bounds.extend(coords);
 					return bounds;
 				}, initialBounds);
 
-				const markers = listItems.records.reduce(
-					(markers, listItem) => {
-						const marker = new Marker(listItem);
-						markers.push(marker);
-						return markers;
-					},
-					[]
-				);
+				const features = listItems.records.map<any>((item) => {
+					return new GeoJSONFeature(item);
+				});
 
 				return {
 					listItems: listItems,
 					bounds: bounds,
-					markers: markers,
+					features: features,
 				};
 			}),
 			map(
-				({ listItems, bounds, markers }) =>
-					new AppActions.SetListItems({ listItems, bounds, markers })
+				({ listItems, bounds, features }) =>
+					new AppActions.SetListItems({ listItems, bounds, features })
 			),
 			catchError((errorResponse: HttpErrorResponse) =>
 				of(new AppActions.FetchListItemsFail(errorResponse.message))
@@ -56,12 +53,12 @@ export class AppEffects {
 				this.dataService.getPropertyItem(propertyID)
 			),
 			map((propertyItem) => {
-				const marker = new Marker(propertyItem);
-				return { propertyItem: propertyItem, markers: [marker] };
+				const feature = new GeoJSONFeature(propertyItem);
+				return { propertyItem: propertyItem, features: [feature] };
 			}),
 			map(
-				({ propertyItem, markers }) =>
-					new AppActions.SetPropertyItem({ propertyItem, markers })
+				({ propertyItem, features }) =>
+					new AppActions.SetPropertyItem({ propertyItem, features })
 			),
 			catchError((errorResponse: HttpErrorResponse) =>
 				of(new AppActions.FetchPropertyItemFail(errorResponse.message))

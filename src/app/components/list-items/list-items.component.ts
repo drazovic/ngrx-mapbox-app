@@ -7,7 +7,7 @@ import * as fromApp from '../../store/app.reducer';
 import * as AppSelectors from '../../store/app.selectors';
 import * as AppActions from '../../store/app.actions';
 import { ListItems, ListItem } from 'src/app/models/ListItems.model';
-import { Marker } from 'src/app/models/Marker.model';
+import { GeoJSONFeature } from 'src/app/models/GeoJSONFeature.model';
 
 @Component({
 	selector: 'app-list-items',
@@ -28,7 +28,7 @@ export class ListItemsComponent implements OnInit {
 	}
 
 	onListItemSelected(listItem: ListItem) {
-		const marker = new Marker(listItem);
+		const marker = new GeoJSONFeature(listItem);
 		this.store.dispatch(new AppActions.MarkerClicked(marker));
 
 		this.router.navigate(['/', listItem.propertyID], {

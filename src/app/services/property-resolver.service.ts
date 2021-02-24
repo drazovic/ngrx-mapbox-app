@@ -11,13 +11,14 @@ import { take } from 'rxjs/operators';
 import * as fromApp from '../store/app.reducer';
 import * as AppActions from '../store/app.actions';
 import { PropertyItem } from '../models/PropertyItem.model';
-import { Marker } from '../models/Marker.model';
+import { GeoJSONFeature } from '../models/GeoJSONFeature.model';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class PropertyResolverService
-	implements Resolve<{ propertyItem: PropertyItem; markers: Marker[] }> {
+	implements
+		Resolve<{ propertyItem: PropertyItem; markers: GeoJSONFeature[] }> {
 	constructor(
 		private store: Store<fromApp.AppState>,
 		private actions$: Actions

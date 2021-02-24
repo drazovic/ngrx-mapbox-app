@@ -6,7 +6,7 @@ import * as AppSelectors from '../../store/app.selectors';
 import * as fromApp from '../../store/app.reducer';
 import * as AppActions from '../../store/app.actions';
 import { PropertyItem } from 'src/app/models/PropertyItem.model';
-import { Marker } from 'src/app/models/Marker.model';
+import { GeoJSONFeature } from 'src/app/models/GeoJSONFeature.model';
 
 @Component({
 	selector: 'app-property-item',
@@ -30,7 +30,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
 		this.isMapLoadedItemSubscription = this.store
 			.select(AppSelectors.getIsMapLoaded)
 			.subscribe(() => {
-				const marker = new Marker(this.propertyItem);
+				const marker = new GeoJSONFeature(this.propertyItem);
 				this.store.dispatch(new AppActions.MarkerClicked(marker));
 			});
 	}
