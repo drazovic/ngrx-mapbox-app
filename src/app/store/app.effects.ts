@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-
-import { LngLatBounds } from 'mapbox-gl';
 
 import * as AppActions from './app.actions';
 import { DataService } from '../services/data.service';
@@ -15,31 +13,20 @@ export class AppEffects {
 	fetchListItemsEffect$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(AppActions.AppActionTypes.FetchListItems),
-			switchMap(() => this.dataService.listItems),
+			switchMap(() => this.dataService.getListItems()),
 			map((listItems) => {
-				const initialBounds: LngLatBounds = new LngLatBounds();
-				const bounds = listItems.records.reduce((bounds, listItem) => {
-					const coords = GeoJSONFeature.convertGeocodeToLngLat(
-						listItem.geocode
-					);
-					bounds.extend(coords);
-					return bounds;
-				}, initialBounds);
-
 				const features = listItems.records.map<any>((item) => {
 					return new GeoJSONFeature(item);
 				});
 
 				return {
 					listItems: listItems,
-					bounds: bounds,
 					features: features,
 				};
 			}),
-			map(
-				({ listItems, bounds, features }) =>
-					new AppActions.SetListItems({ listItems, bounds, features })
-			),
+			map(({ listItems, features }) => {
+				return new AppActions.SetListItems({ listItems, features });
+			}),
 			catchError((errorResponse: HttpErrorResponse) =>
 				of(new AppActions.FetchListItemsFail(errorResponse.message))
 			)
@@ -49,9 +36,9 @@ export class AppEffects {
 	fetchPropertyItemEffect$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(AppActions.AppActionTypes.FetchPropertyItem),
-			switchMap(({ propertyID }) =>
-				this.dataService.getPropertyItem(propertyID)
-			),
+			switchMap(({ payload }) => {
+				return this.dataService.getPropertyItem(payload['propertyID']);
+			}),
 			map((propertyItem) => {
 				const feature = new GeoJSONFeature(propertyItem);
 				return { propertyItem: propertyItem, features: [feature] };

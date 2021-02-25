@@ -13,7 +13,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,7 +22,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { ListItemsComponent } from './components/list-items/list-items.component';
 import * as fromApp from './store/app.reducer';
 import { AppEffects } from './store/app.effects';
-import { environment } from '../environments/environment';
 
 @NgModule({
 	declarations: [
@@ -46,9 +44,6 @@ import { environment } from '../environments/environment';
 		MatListModule,
 		MatExpansionModule,
 		MatDividerModule,
-		NgxMapboxGLModule.withConfig({
-			accessToken: environment.map.accessToken,
-		}),
 		StoreModule.forRoot({
 			app: fromApp.reducer,
 		}),

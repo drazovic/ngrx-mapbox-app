@@ -1,4 +1,4 @@
-<div *ngIf="propertyItem">
+<div *ngIf="propertyItem$ | async as propertyItem">
 	<a
 		class="directions"
 		mat-fab

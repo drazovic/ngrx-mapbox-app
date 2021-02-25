@@ -1,45 +1,24 @@
-import { createFeatureSelector, createSelector, Selector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { AppState } from './app.reducer';
+import * as fromApp from '../store/app.reducer';
 
 export const getAppState = createFeatureSelector<AppState>('app');
 
-export const getListItems = createSelector(
-	getAppState,
-	(state: AppState) => state.listItems
-);
+export class ListItemsSelector {
+	static get = createSelector(
+		getAppState,
+		(state: AppState) => state.listItems
+	);
+}
 
-export const getBounds = createSelector(
-	getAppState,
-	(state: AppState) => state.bounds
-);
+export class FeaturesSelector {
+	static getAll = createSelector(getAppState, fromApp.selectAllFeatures);
+}
 
-export const getCenter = createSelector(
-	getAppState,
-	(state: AppState) => state.center
-);
-
-export const getZoom = createSelector(
-	getAppState,
-	(state: AppState) => state.zoom
-);
-
-export const getIsMapLoaded = createSelector(
-	getAppState,
-	(state: AppState) => state.isMapLoaded
-);
-
-export const getFeatures = createSelector(
-	getAppState,
-	(state: AppState) => state.features
-);
-
-export const getMarkerType = createSelector(
-	getAppState,
-	(state: AppState) => state.markerType
-);
-
-export const getPropertyItem = createSelector(
-	getAppState,
-	(state: AppState) => state.propertyItem
-);
+export class PropertyItemSelector {
+	static get = createSelector(
+		getAppState,
+		(state: AppState) => state.propertyItem
+	);
+}

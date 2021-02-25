@@ -11,14 +11,12 @@ import { take } from 'rxjs/operators';
 import * as fromApp from '../store/app.reducer';
 import * as AppActions from '../store/app.actions';
 import { PropertyItem } from '../models/PropertyItem.model';
-import { GeoJSONFeature } from '../models/GeoJSONFeature.model';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class PropertyResolverService
-	implements
-		Resolve<{ propertyItem: PropertyItem; markers: GeoJSONFeature[] }> {
+	implements Resolve<{ propertyItem: PropertyItem }> {
 	constructor(
 		private store: Store<fromApp.AppState>,
 		private actions$: Actions
@@ -27,7 +25,7 @@ export class PropertyResolverService
 	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 		this.store.dispatch(
 			new AppActions.FetchPropertyItem({
-				propertyID: +route.params['id'],
+				propertyID: route.params['id'],
 			})
 		);
 		return this.actions$.pipe(

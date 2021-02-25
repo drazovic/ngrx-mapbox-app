@@ -1,4 +1,5 @@
 import { LngLat } from 'mapbox-gl';
+
 import { Geocode, ListItem } from './ListItems.model';
 import { PropertyItem } from './PropertyItem.model';
 
@@ -13,6 +14,7 @@ export class GeoJSONFeature {
 	};
 
 	constructor(item: PropertyItem | ListItem) {
+		this.type = 'Feature';
 		this.geometry = {
 			type: 'Point',
 			coordinates: GeoJSONFeature.getGeocodeCoords(item.geocode),
@@ -43,6 +45,5 @@ export class GeoJSONFeature {
 }
 
 export enum MarkerTypes {
-	BLUE = '../../assets/images/pin/pin-blue.svg',
-	RED = '../../assets/images/pin/pin-red.svg',
+	PointMarker = 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-32.png',
 }

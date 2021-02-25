@@ -19,7 +19,7 @@ export class DataService {
 
 	constructor(private http: HttpClient) {}
 
-	get listItems() {
+	getListItems() {
 		if (!this._listItemsCache$) {
 			this._listItemsCache$ = this.fetchListItems().pipe(
 				shareReplay(CACHE_SIZE)

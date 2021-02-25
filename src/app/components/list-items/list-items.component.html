@@ -1,5 +1,5 @@
 <mat-card
-	*ngFor="let listItem of (listItems$ | async).records"
+	*ngFor="let listItem of (listItems$ | async)?.records"
 	class="card"
 	(click)="onListItemSelected(listItem)"
 >

@@ -5,9 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import * as fromApp from '../../store/app.reducer';
 import * as AppSelectors from '../../store/app.selectors';
-import * as AppActions from '../../store/app.actions';
 import { ListItems, ListItem } from 'src/app/models/ListItems.model';
-import { GeoJSONFeature } from 'src/app/models/GeoJSONFeature.model';
+import * as AppActions from '../../store/app.actions';
 
 @Component({
 	selector: 'app-list-items',
@@ -16,6 +15,7 @@ import { GeoJSONFeature } from 'src/app/models/GeoJSONFeature.model';
 })
 export class ListItemsComponent implements OnInit {
 	listItems$: Observable<ListItems>;
+	currentRoute: string;
 
 	constructor(
 		private store: Store<fromApp.AppState>,
@@ -24,14 +24,12 @@ export class ListItemsComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.listItems$ = this.store.select(AppSelectors.getListItems);
+		this.store.dispatch(new AppActions.FetchListItems());
+		this.listItems$ = this.store.select(AppSelectors.ListItemsSelector.get);
 	}
 
 	onListItemSelected(listItem: ListItem) {
-		const marker = new GeoJSONFeature(listItem);
-		this.store.dispatch(new AppActions.MarkerClicked(marker));
-
-		this.router.navigate(['/', listItem.propertyID], {
+		this.router.navigate([listItem.propertyID], {
 			relativeTo: this.route,
 		});
 	}
